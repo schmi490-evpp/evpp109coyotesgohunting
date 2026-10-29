@@ -501,6 +501,9 @@ function runRandomGeneration(){
     generation,
     mice,
     coyotes,
+
+    capturesPerCoyote,
+    
     totalCaptured,
     miceSurviving,
     survivingCoyotes,
@@ -509,14 +512,50 @@ function runRandomGeneration(){
   });
     }
 
+   let coyoteResults = "";
+
+  capturesPerCoyote.forEach(
+
+    (captured,index) => {
+
+      coyoteResults +=
+
+        `Coyote ${index+1} caught ${captured} mice<br>`;
+
+    }
+
+  );
+
   huntResult.innerHTML =
 
     `
-    Generation ${generation}<br>
-    Total Captured: ${totalCaptured}<br>
-    Mice Surviving: ${miceSurviving}<br>
-    Coyotes Surviving: ${survivingCoyotes}<br>
-    Offspring Produced: ${offspring}
+    <strong>
+    Generation ${generation}
+    </strong>
+
+    <br><br>
+
+    ${coyoteResults}
+
+    <br>
+
+    Total Captured:
+    ${totalCaptured}
+
+    <br>
+
+    Mice Surviving:
+    ${miceSurviving}
+
+    <br>
+
+    Coyotes Surviving:
+    ${survivingCoyotes}
+
+    <br>
+
+    Offspring Produced:
+    ${offspring}
     `;
 
   // Next generation mouse population
@@ -564,7 +603,7 @@ function runRandomGeneration(){
   renderGeneration();
 
 }
-``
+
 // ======================================
 // Realistic Hunting Model
 // ======================================
@@ -836,7 +875,7 @@ function downloadCSV(){
 
   let csv =
 
-`Generation,Mice,Coyotes,Captured,MiceSurviving,CoyoteSurviving,Offspring
+`Generation,Mice,Coyotes,CoyoteCaptures,TotalCaptured,MiceSurviving,CoyoteSurviving,Offspring
 `;
 
   populationHistory.forEach(row => {
@@ -846,11 +885,13 @@ function downloadCSV(){
 `${row.generation},
 ${row.mice},
 ${row.coyotes},
+"${row.capturesPerCoyote.join(", ")}",
 ${row.totalCaptured},
 ${row.miceSurviving},
 ${row.survivingCoyotes},
 ${row.offspring}
 `.replace(/\n/g,"");
+    
 
     csv += "\n";
 
