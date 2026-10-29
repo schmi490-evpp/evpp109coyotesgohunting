@@ -148,3 +148,126 @@ function startSimulation() {
 
   renderGeneration();
 }
+// ======================================
+// Practice Generations 1-4
+// ======================================
+
+const practiceGenerations = {
+
+  1: {
+    miceStart: 10,
+    coyotesStart: 1,
+    captures: [1]
+  },
+
+  2: {
+    miceStart: 18,
+    coyotesStart: 1,
+    captures: [3]
+  },
+
+  3: {
+    miceStart: 30,
+    coyotesStart: 1,
+    captures: [6]
+  },
+
+  4: {
+    miceStart: 48,
+    coyotesStart: 2,
+    captures: [6,4]
+  }
+
+};
+
+// ======================================
+// Render Generation
+// ======================================
+
+function renderGeneration() {
+
+  generationDisplay.textContent =
+    generation;
+
+  miceDisplay.textContent =
+    mice;
+
+  coyoteDisplay.textContent =
+    coyotes;
+
+  renderMice();
+
+  if(generation === checkpointGeneration){
+
+    screenshotWarning.classList.remove("hidden");
+
+  }
+  else{
+
+    screenshotWarning.classList.add("hidden");
+
+  }
+
+}
+
+// ======================================
+// Render Mice
+// ======================================
+
+function renderMice(){
+
+  let shownMice =
+    Math.min(
+      Math.round(mice / 4),
+      25
+    );
+
+  let html = "";
+
+  for(let i=0;i<shownMice;i++){
+
+    html += "🐭 ";
+
+  }
+
+  document.getElementById(
+    "mouse-area"
+  ).innerHTML = html;
+
+}
+
+// ======================================
+// Hunt Button
+// ======================================
+
+huntBtn.addEventListener(
+  "click",
+  runGeneration
+);
+
+// ======================================
+// Run Generation
+// ======================================
+
+async function runGeneration(){
+
+  huntBtn.disabled = true;
+
+  animateCoyote();
+
+  await wait(1800);
+
+  if(generation <= 4){
+
+    runPracticeGeneration();
+
+  }
+  else{
+
+    runRandomGeneration();
+
+  }
+
+  huntBtn.disabled = false;
+
+}
